@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cv0bvqcusxl5n"]
+
+[node name="DashParticleEffect" type="CPUParticles2D"]
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+fixed_fps = 60
+emission_shape = 1
+emission_sphere_radius = 7.0
+spread = 180.0
+gravity = Vector2(0, 200)

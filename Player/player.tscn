@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dx7kyb8vousuo"]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_yw0eq"]
+[ext_resource type="Script" path="res://Player/Camera.gd" id="2_n6csi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ccohp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cywn3"]
+size = Vector2(15, 15)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tndv4"]
+radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5d632"]
+size = Vector2(15, 15)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 6
+script = ExtResource("1_yw0eq")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(15, 15)
+mesh = SubResource("BoxMesh_ccohp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_cywn3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(0.880001, 1)
+zoom = Vector2(2, 2)
+script = ExtResource("2_n6csi")
+
+[node name="DealDamageZone" type="Area2D" parent="." groups=["PlayerAttackZone"]]
+collision_layer = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DealDamageZone"]
+visible = false
+position = Vector2(9, 1)
+shape = SubResource("CircleShape2D_tndv4")
+
+[node name="PlayerHitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitBox"]
+visible = false
+shape = SubResource("RectangleShape2D_5d632")
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.05
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

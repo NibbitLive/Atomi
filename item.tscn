@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://du14x50vxkbn"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jso45"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_na6yu"]
+radius = 7.0
+height = 24.0
+
+[node name="Item" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(10, 10)
+mesh = SubResource("CapsuleMesh_jso45")
+
+[node name="PickUpArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
+shape = SubResource("CapsuleShape2D_na6yu")

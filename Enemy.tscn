@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://b6cf5p1y0dsqf"]
+
+[ext_resource type="Script" path="res://Enemy.gd" id="1_xs6mf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cmwxc"]
+albedo_color = Color(0.68943, 0.121697, 0.125604, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_smoxh"]
+material = SubResource("StandardMaterial3D_cmwxc")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rodcc"]
+size = Vector2(15, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28lfv"]
+size = Vector2(18, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dw3rp"]
+size = Vector2(16, 16)
+
+[node name="EnemyTemp" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_xs6mf")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(15, 15)
+mesh = SubResource("BoxMesh_smoxh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_rodcc")
+
+[node name="DirectionTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="enemyhitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyhitbox"]
+visible = false
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_28lfv")
+
+[node name="enemyDealDamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyDealDamageArea"]
+visible = false
+shape = SubResource("RectangleShape2D_dw3rp")
+
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
+[connection signal="area_entered" from="enemyhitbox" to="." method="_on_enemyhitbox_area_entered"]

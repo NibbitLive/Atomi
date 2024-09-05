@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck2xgjiimry3v"]
+
+[ext_resource type="Script" path="res://death_screen.gd" id="1_e66mm"]
+[ext_resource type="Shader" path="res://pause_menu.gdshader" id="2_i5egu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8o5hg"]
+shader = ExtResource("2_i5egu")
+shader_parameter/amount = 1.0
+
+[node name="DeathScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e66mm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_8o5hg")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.186
+anchor_top = -0.217
+offset_left = -702.728
+offset_top = -395.384
+offset_right = 5105.0
+offset_bottom = 2694.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Died" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "YOU HAVE DIED "
+
+[node name="Restart" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart
+"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Restart" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cfedebxhm7xne"]
+
+[ext_resource type="Texture2D" uid="uid://xvpcohjk3qsp" path="res://Pixel Art Platformer - Village Props v2.3.0/Texture/TX Tileset Ground.png" id="1_88kg1"]
+
+[resource]
+atlas = ExtResource("1_88kg1")
+region = Rect2(0, 0, 510, 513)
