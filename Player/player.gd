@@ -8,6 +8,8 @@ const DASH_VERTICAL_SPEED = 300.0
 const DASH_DURATION = 0.2
 const DASH_COOLDOWN = 1.0
 const ATTACK_HITBOX_DURATION = 0.2  # Duration the hitbox remains visible
+const ACCELERATION = 800.0
+const FRICTION = 1000.0
 
 @onready var sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var dash_indicator: ColorRect = $"../UI/DashIndicatorTemp"
@@ -30,7 +32,6 @@ const ATTACK_HITBOX_DURATION = 0.2  # Duration the hitbox remains visible
 
 var full_heart_texture: Texture = preload("res://full_heart.png")
 var empty_heart_texture: Texture = preload("res://empty_heart.png")
-
 
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -86,7 +87,7 @@ func _physics_process(delta: float) -> void:
 	
 	# Handle jump (continuous jumping when holding jump button)
 	if Input.is_action_pressed("jump") and is_on_floor():
-			velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_VELOCITY
 	
 	# Handle dashing
 	if Input.is_action_just_pressed("dash") and dash_cooldown_left <= 0:
@@ -117,7 +118,6 @@ func _physics_process(delta: float) -> void:
 			squish.x = 1.4
 			squish.y = 0.4
 			
-			#_trigger_particle_burst(global_position)
 			camera.shake(4.0, 0.1)
 	
 	# Update dash timer
@@ -128,13 +128,16 @@ func _physics_process(delta: float) -> void:
 	
 	# Handle normal movement if not dashing
 	if not is_dashing:
-		var direction = Input.get_axis("left", "right")
-		if direction:
-			velocity.x = direction * NORMAL_SPEED
-			toggle_flip_sprite(direction)
+		var input_direction = Input.get_axis("left", "right")
+		if input_direction != 0:
+			# Accelerate towards target speed
+			velocity.x = move_toward(velocity.x, input_direction * NORMAL_SPEED, ACCELERATION * delta)
+			toggle_flip_sprite(input_direction)
 		else:
-			velocity.x = move_toward(velocity.x, 0, NORMAL_SPEED)
+			# Apply friction when no input is given
+			velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 	
+	# Handle attack
 	if !current_attack:
 		if Input.is_action_just_pressed("attack"):
 			current_attack = true
@@ -143,6 +146,7 @@ func _physics_process(delta: float) -> void:
 	_update_dash_indicator()
 	move_and_slide()
 	check_hitbox()
+
 
 func _update_dash_indicator() -> void:
 	if dash_cooldown_left > 0:
